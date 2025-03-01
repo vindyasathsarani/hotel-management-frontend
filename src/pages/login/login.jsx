@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./login.css";
 
 export default function LoginPage() {
@@ -6,7 +7,16 @@ export default function LoginPage() {
     const [ password, setPassword] = useState()
 
     function handleLogin (){
-        console.log(email,password)
+        axios.post("http://localhost:5000/api/users/login", {email: email, password : password}).then((res)=>{
+            console.log(res)
+            localStorage.setItem("token",res.data.token)
+            const token = localStorage.getItem("token")
+            console.log(token);
+            
+        }).catch((err)=>{
+        console.log(err);
+        
+        })
     }
   return (
     <div className="w-full h-[100vh] bg-blue-600 pic-bg flex justify-center items-center">
