@@ -24,7 +24,7 @@ export default function HomePage() {
           </button>
         </div>
         <h1 className="text-[#5C534B] text-[50px] font-bold mt-6 text-center">
-          Welcome to the Vinara Villa
+          Welcome to the Lush Oasis Hotel
         </h1>
       </div>
     </>

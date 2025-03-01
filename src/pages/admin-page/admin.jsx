@@ -1,10 +1,10 @@
 import { Link, Route, Routes } from "react-router-dom";
-import { CiBookmarkCheck } from "react-icons/ci";
-import { MdOutlineCategory } from "react-icons/md";
-import { FaHotel } from "react-icons/fa"; // Icon for Rooms
-import { FaUsers } from "react-icons/fa"; // Icon for Users
-import { MdFeedback } from "react-icons/md"; // Icon for Feedbacks
-import { IoMdImages } from "react-icons/io"; // Icon for GalleryItems
+import { LuCalendarCheck } from "react-icons/lu"; // Line icon for Bookings
+import { LuLayoutGrid } from "react-icons/lu"; // Line icon for Categories
+import { LuBed } from "react-icons/lu"; // Line icon for Rooms
+import { LuUsers } from "react-icons/lu"; // Line icon for Users
+import { LuMessageSquare } from "react-icons/lu"; // Line icon for Feedbacks
+import { LuImage } from "react-icons/lu"; // Line icon for GalleryItems
 import AdminBooking from "../admin/Bookings/adminBooking";
 import AdminCategories from "../admin/categories/adminCategories";
 import AdminFeedback from "../admin/feedbacks/feedback";
@@ -20,42 +20,42 @@ export default function AdminPage() {
         {/* Bookings */}
         <div className="text-white text-[30px] hover:font-bold flex items-center px-4">
           <Link to="/admin/bookings" className="flex items-center gap-2">
-            <CiBookmarkCheck />
+            <LuCalendarCheck />
             Bookings
           </Link>
         </div>
         {/* Categories */}
         <div className="text-white text-[30px] hover:font-bold flex items-center px-4">
           <Link to="/admin/categories" className="flex items-center gap-2">
-            <MdOutlineCategory />
+            <LuLayoutGrid />
             Categories
           </Link>
         </div>
         {/* Rooms */}
         <div className="text-white text-[30px] hover:font-bold flex items-center px-4">
           <Link to="/admin/rooms" className="flex items-center gap-2">
-            <FaHotel />
+            <LuBed />
             Rooms
           </Link>
         </div>
         {/* Users */}
         <div className="text-white text-[30px] hover:font-bold flex items-center px-4">
           <Link to="/admin/users" className="flex items-center gap-2">
-            <FaUsers />
+            <LuUsers />
             Users
           </Link>
         </div>
         {/* Feedbacks */}
         <div className="text-white text-[30px] hover:font-bold flex items-center px-4">
           <Link to="/admin/feedbacks" className="flex items-center gap-2">
-            <MdFeedback />
+            <LuMessageSquare />
             Feedbacks
           </Link>
         </div>
         {/* GalleryItems */}
         <div className="text-white text-[30px] hover:font-bold flex items-center px-4">
           <Link to="/admin/gallery" className="flex items-center gap-2">
-            <IoMdImages />
+            <LuImage />
             GalleryItems
           </Link>
         </div>
