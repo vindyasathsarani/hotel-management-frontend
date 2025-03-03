@@ -3,6 +3,7 @@ import "./App.css";
 import AdminPage from "./pages/admin-page/admin";
 import HomePage from "./pages/client-page/homePage";
 import LoginPage from "./pages/login/login";
+import CategoryPage from "./pages/client-page/categories";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/category" element={<CategoryPage/>}/>
         <Route path="/admin/*" element={<AdminPage />} />
     
         
