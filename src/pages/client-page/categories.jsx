@@ -1,40 +1,29 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
+  const [categoriesIsLoaded, setcategoriesIsLoaded] = useState(false)
 
   useEffect(() => {
-    // Sample Data (this would normally come from your backend)
-    const sampleData = [
-      {
-        _id: "1",
-        name: "Luxury Suite",
-        price: 300,
-        features: ["Ocean View", "King Size Bed", "Free Wi-Fi"],
-        description: "A luxurious suite with breathtaking ocean views.",
-        image: "https://example.com/images/luxury-suite.jpg",
-      },
-      {
-        _id: "2",
-        name: "Standard Room",
-        price: 120,
-        features: ["City View", "Queen Size Bed", "Free Wi-Fi"],
-        description: "A comfortable room with a city view.",
-        image: "https://example.com/images/standard-room.jpg",
-      },
-      {
-        _id: "3",
-        name: "Budget Room",
-        price: 60,
-        features: ["Street View", "Single Bed", "No Wi-Fi"],
-        description: "An affordable room for budget-conscious travelers.",
-        image: "https://example.com/images/budget-room.jpg",
-      },
-    ];
+    if(!categoriesIsLoaded){
+      axios
+      .get(import.meta.env.VITE_BACKEND_URL + "/api/category")
+      .then((res) => {
+        setCategories(res.data.categories);
+        setcategoriesIsLoaded(true)
+      });
+    }
 
-    // Setting sample data to categories state
-    setCategories(sampleData);
-  }, []);
+  }, [categoriesIsLoaded]);
+  function deleteItem(name) {
+    alert("Deleting category with name: " + name);
+    axios
+      .delete(import.meta.env.VITE_BACKEND_URL + "/api/category/" + name)
+      .then((res) => {
+        setcategoriesIsLoaded(false)
+      });
+  }
 
   return (
     <div className="w-full min-h-screen bg-[#F6F0F0] py-10">
@@ -51,6 +40,7 @@ export default function CategoryPage() {
                 <th className="px-6 py-3 text-left">Features</th>
                 <th className="px-6 py-3 text-left">Description</th>
                 <th className="px-6 py-3 text-left">Image</th>
+                <th className="px-6 py-3 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -73,6 +63,17 @@ export default function CategoryPage() {
                         alt={category.name}
                         className="w-24 h-24 object-cover rounded-lg"
                       />
+                    </td>
+                    <td className="px-6 py-4">
+                      {/* Added delete button */}
+                      <button
+                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                        onClick={() => {
+                          deleteItem(category.name);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))
