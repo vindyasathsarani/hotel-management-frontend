@@ -3,6 +3,14 @@ import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function AdminCategories() {
+
+  const token = localStorage.getItem("token");
+
+    if(token == null){
+      window.location.href = "/login"
+    }
+ 
+
   const [categories, setCategories] = useState([]);
   const [categoriesIsLoaded, setCategoriesLoaded] = useState(false);
 
@@ -26,14 +34,21 @@ export default function AdminCategories() {
     }
   }, [categoriesIsLoaded]);
 
-  const handleEdit = (categoryId) => {
-    console.log("Edit category:", categoryId);
-    // Add your edit logic here
+  const handleDelete = (name) => {
+    axios.delete(import.meta.env.VITE_BACKEND_URL+"/api/category/" +name,{
+      headers:{
+        Authorization:"Bearer" + token
+      }
+    }).then((res)=>{
+      setCategoriesLoaded(false)
+    })
+    console.log("Delete category:", name);
+    
   };
 
-  const handleDelete = (categoryId) => {
-    console.log("Delete category:", categoryId);
-    // Add your delete logic here
+  const handleEdit = (name) => {
+    console.log("Edit category:", name);
+ 
   };
 
   return (
@@ -69,13 +84,13 @@ export default function AdminCategories() {
                 </td>
                 <td className="border p-2 text-center">
                   <button
-                    onClick={() => handleEdit(category._id)}
+                    onClick={() => handleEdit(category.name)}
                     className="text-blue-500 hover:text-blue-700 mx-2"
                   >
                     <FaEdit />
                   </button>
                   <button
-                    onClick={() => handleDelete(category._id)}
+                    onClick={() => handleDelete(category.name)}
                     className="text-red-500 hover:text-red-700 mx-2"
                   >
                     <FaTrash />
