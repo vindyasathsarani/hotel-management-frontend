@@ -4,6 +4,7 @@ import AdminPage from "./pages/admin-page/admin";
 import HomePage from "./pages/client-page/homePage";
 import LoginPage from "./pages/login/login";
 import CategoryPage from "./pages/client-page/categories";
+import TestComponent from "./components/test/test";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/category" element={<CategoryPage/>}/>
         <Route path="/admin/*" element={<AdminPage />} />
+        <Route path="/test" element={<TestComponent/>}/>
     
         
       </Routes>
