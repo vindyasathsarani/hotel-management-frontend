@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function AdminCategories() {
@@ -41,6 +42,7 @@ export default function AdminCategories() {
       }
     }).then((res)=>{
       setCategoriesLoaded(false)
+      toast.success("Category deleted successfully!")
     })
     console.log("Delete category:", name);
     
