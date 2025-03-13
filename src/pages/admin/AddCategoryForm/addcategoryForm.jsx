@@ -1,6 +1,6 @@
 import { useState } from "react";
-import uploadMedia from "../../../utils/mediaUpload";
-import { getDownloadURL } from "firebase/storage";
+import uploadMedia from "../../../utils/cloudinaryUpload"; // Import Cloudinary upload function
+import axios from "axios";
 
 export default function AddCategoryForm() {
   const [name, setName] = useState("");
@@ -8,9 +8,10 @@ export default function AddCategoryForm() {
   const [features, setFeatures] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("token");
-  if (token == null) {
+  if (!token) {
     window.location.href = "/login";
   }
 
@@ -18,15 +19,45 @@ export default function AddCategoryForm() {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    uploadMedia(image).then((snapshot)=>{
-      getDownloadURL(snapshot.ref).then((url)=>{
-        console.log(url);
-        
-      })
-    })
-    
+    isLoading(true)
+    const featuresArray = features.split(",");
+    console.log(featuresArray);
+
+    if (!image) {
+      alert("Please select an image.");
+      return;
+    }
+
+    const imageUrl = await uploadMedia(image); // Upload to Cloudinary
+    if (imageUrl) {
+      console.log("Image URL:", imageUrl);
+      // Here, you can send the imageUrl and form data to your backend
+      const categoryInfo = {
+        name: name,
+        price: price,
+        description: description,
+        features: featuresArray,
+        image: imageUrl,
+      };
+      axios
+        .post(
+          import.meta.env.VITE_BACKEND_URL + "/api/category",
+          categoryInfo,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          setIsLoading(false)
+        });
+    } else {
+      console.error("Image upload failed.");
+    }
   };
 
   return (
@@ -75,15 +106,19 @@ export default function AddCategoryForm() {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={handleImageChange}
           className="w-full border p-2 rounded mb-4"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 flex justify-center"
         >
-          Add Category
+          {isLoading ? (
+            <div className="border-t-2 border-t-white w-[20px] min-h-[20px] rounded-full animate-spin"></div>
+          ) : (
+            <span>Add Category</span>
+          )}
         </button>
       </form>
     </div>

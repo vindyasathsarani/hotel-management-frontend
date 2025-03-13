@@ -1,5 +1,5 @@
 import { useState } from "react"
-import uploadMedia from "../../utils/mediaUpload"
+import uploadMedia from "../../utils/cloudinaryUpload"
 
 export default function TestComponent() {
   const[file, setFile] = useState(null)
