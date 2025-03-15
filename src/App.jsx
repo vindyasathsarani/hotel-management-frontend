@@ -11,13 +11,13 @@ import { Toaster } from "react-hot-toast";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
-import { AdvancedImage } from "@cloudinary/react";
+
 
 function App() {
   // Cloudinary setup
   const cld = new Cloudinary({ cloud: { cloudName: "di0itwkur" } });
 
-  // Sample image from Cloudinary
+  // Sample image from Cloudinary (you can add this to a specific page, not globally)
   const img = cld
     .image("cld-sample-5")
     .format("auto")
@@ -35,11 +35,6 @@ function App() {
         <Route path="/test" element={<TestComponent />} />
       </Routes>
 
-      {/* Display a Cloudinary image */}
-      <div className="flex justify-center p-4">
-        <h2 className="text-center">Cloudinary Image</h2>
-        <AdvancedImage cldImg={img} />
-      </div>
     </BrowserRouter>
   );
 }

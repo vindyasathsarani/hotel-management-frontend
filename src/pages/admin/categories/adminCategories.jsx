@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+
 
 export default function AdminCategories() {
 
@@ -16,7 +17,7 @@ export default function AdminCategories() {
   const [categories, setCategories] = useState([]);
   const [categoriesIsLoaded, setCategoriesLoaded] = useState(false);
   const navigate = useNavigate()
-
+  
   useEffect(() => {
     if (!categoriesIsLoaded) {
       axios
@@ -99,12 +100,10 @@ export default function AdminCategories() {
                   )}
                 </td>
                 <td className="border p-2 text-center">
-                  <button
-                    onClick={() => handleEdit(category.name)}
-                    className="text-blue-500 hover:text-blue-700 mx-2"
+                  <Link className="text-blue-500 hover:text-blue-700 mx-2" to={"/admin/update-category"} state={category}
                   >
                     <FaEdit />
-                  </button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(category.name)}
                     className="text-red-500 hover:text-red-700 mx-2"

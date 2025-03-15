@@ -1,12 +1,19 @@
 import { useState } from "react";
 import uploadMedia from "../../../utils/cloudinaryUpload"; // Import Cloudinary upload function
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-export default function AddCategoryForm() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [features, setFeatures] = useState("");
-  const [description, setDescription] = useState("");
+export default function UpdateCategoryForm() {
+  const location = useLocation();
+  const navigate = useNavigate()
+  if (location.state === null) {
+    window.location.href = "/admin/categories";
+  }
+  const [name, setName] = useState(location.state.name);
+  const [price, setPrice] = useState(location.state.price);
+  const [features, setFeatures] = useState(location.state.features.join(","));
+  const [description, setDescription] = useState(location.state.description);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,10 +28,33 @@ export default function AddCategoryForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     const featuresArray = features.split(",");
     console.log(featuresArray);
 
+    const categoryInfo = {
+      price: price,
+      description: description,
+      features: featuresArray,
+      image: location.state.image,
+    };
+
+    axios
+        .put(
+          import.meta.env.VITE_BACKEND_URL + "/api/category/"+name,
+          categoryInfo,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          setIsLoading(false);
+          toast.success("Category Updated Successfully!")
+          navigate("/admin/categories")
+        });
     if (!image) {
       alert("Please select an image.");
       return;
@@ -35,15 +65,14 @@ export default function AddCategoryForm() {
       console.log("Image URL:", imageUrl);
       // Here, you can send the imageUrl and form data to your backend
       const categoryInfo = {
-        name: name,
         price: price,
         description: description,
         features: featuresArray,
         image: imageUrl,
       };
       axios
-        .post(
-          import.meta.env.VITE_BACKEND_URL + "/api/category",
+        .put(
+          import.meta.env.VITE_BACKEND_URL + "/api/category/"+name,
           categoryInfo,
           {
             headers: {
@@ -53,7 +82,9 @@ export default function AddCategoryForm() {
         )
         .then((res) => {
           console.log(res);
-          setIsLoading(false)
+          setIsLoading(false);
+          toast.success("Category Updated Successfully!")
+          navigate("/admin/categories")
         });
     } else {
       console.error("Image upload failed.");
@@ -75,6 +106,7 @@ export default function AddCategoryForm() {
           onChange={(e) => setName(e.target.value)}
           className="w-full border p-2 rounded mb-4"
           required
+          disabled
         />
 
         <label className="block mb-2">Price:</label>
@@ -117,7 +149,7 @@ export default function AddCategoryForm() {
           {isLoading ? (
             <div className="border-t-2 border-t-white w-[20px] min-h-[20px] rounded-full animate-spin"></div>
           ) : (
-            <span>Add Category</span>
+            <span>Update Category</span>
           )}
         </button>
       </form>
