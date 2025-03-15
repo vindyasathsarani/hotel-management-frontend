@@ -13,6 +13,7 @@ import AdminRooms from "../admin/rooms/rooms";
 import AdminUsers from "../admin/users/users";
 import AddCategoryForm from "../admin/AddCategoryForm/addcategoryForm";
 import UpdateCategoryForm from "../admin/updateCategoryForm/updateCategoryForm";
+import AddGalleryItemForm from "../admin/AddGalleryForm/addGalleyForm";
 
 export default function AdminPage() {
   return (
@@ -74,6 +75,7 @@ export default function AdminPage() {
           <Route path="/users" element={<AdminUsers />} />
           <Route path="/feedbacks" element={<AdminFeedback />} />
           <Route path="/gallery" element={<AdminGalleryItems />} />
+          <Route path="/add-gallery-item" element={<AddGalleryItemForm/>}/>
         </Routes>
       </div>
     </div>
