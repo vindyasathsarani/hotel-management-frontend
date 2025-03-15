@@ -102,7 +102,7 @@ export default function AdminGalleryItems() {
                 <td className="border p-2 text-center">
                   <Link
                     className="text-blue-500 hover:text-blue-700 mx-2"
-                    to={"/admin/add-gallery-item"}
+                    to={"/admin/update-gallery-item"}
                     state={item}
                   >
                     <FaEdit />
